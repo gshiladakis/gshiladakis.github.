@@ -1,0 +1,88 @@
+Option 1: Task Manager Web App
+
+A lightweight task management app where users can add, update, delete, and mark tasks as completed.
+
+Tech Stack
+
+Frontend: HTML, CSS, JavaScript (or a framework like React if you prefer)
+
+Backend: Python + Flask (or FastAPI)
+
+Database: SQLite (lightweight)
+
+Optional: Bootstrap or Tailwind for UI styling
+
+Core Features
+
+Add Task: Users can enter a task title, description, and due date.
+
+View Tasks: Display a list of tasks (with filtering: all, completed, pending).
+
+Update Task: Mark tasks as complete or edit details.
+
+Delete Task: Remove a task.
+
+Optional: User authentication (login/signup).
+
+Sample API Endpoints
+
+GET /tasks → List all tasks
+
+POST /tasks → Add a new task
+
+PUT /tasks/<id> → Update a task
+
+DELETE /tasks/<id> → Delete a task
+
+Bonus Enhancements
+
+Drag-and-drop task ordering
+
+Task priority color codes
+
+REST API version for mobile app integration
+
+Option 2: API-based Password Generator
+
+A small app that generates secure passwords for users via a web interface or API.
+
+Tech Stack
+
+Frontend: HTML + JS (optional minimal UI)
+
+Backend: Python + Flask / FastAPI
+
+Optional: API only, no frontend
+
+Core Features
+
+Password Length Selection: Users choose the length of the password.
+
+Character Options: Include uppercase, lowercase, digits, and symbols.
+
+Generate Password Button: Returns a randomly generated secure password.
+
+Copy-to-Clipboard Button: For easy use.
+
+Optional API Endpoint:
+
+GET /generate-password?length=16&upper=true&digits=true&symbols=true
+Security Considerations
+
+Use secrets module for cryptographically secure passwords.
+
+Rate-limit API endpoints if exposed publicly.
+
+Bonus Enhancements
+
+Password strength estimator
+
+History of generated passwords (local storage for frontend)
+
+Email password delivery (for authenticated users)
+
+Project Recommendation for Portfolio
+
+Task Manager App: Shows full-stack capabilities (CRUD, backend, frontend, database).
+
+Password Generator: Quick, neat project; demonstrates secure coding and API design.
