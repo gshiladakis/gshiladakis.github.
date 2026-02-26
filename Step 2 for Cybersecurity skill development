@@ -1,0 +1,241 @@
+Learn Network Scanning & Enumeration with Nmap
+📌 Overview
+
+Network scanning and enumeration are foundational skills in cybersecurity. Using Nmap (Network Mapper), you can discover hosts, identify open ports, detect services, and gather detailed information about systems on a network.
+
+Nmap is widely used by:
+
+Penetration testers
+
+Security analysts
+
+Network administrators
+
+SOC teams
+
+Learning Nmap helps you understand how attackers think — and how defenders detect and prevent attacks.
+
+🧠 What Is Network Scanning?
+
+Network scanning is the process of identifying:
+
+🔹 Live hosts on a network
+
+🔹 Open ports
+
+🔹 Running services
+
+🔹 Operating systems
+
+🔹 Vulnerabilities
+
+Enumeration goes deeper — extracting detailed information like:
+
+User accounts
+
+Service versions
+
+SMB shares
+
+DNS records
+
+SNMP data
+
+🛠 Installing Nmap
+Windows
+
+Download from the official Nmap website.
+
+Linux (Ubuntu/Debian)
+sudo apt update
+sudo apt install nmap
+macOS (Homebrew)
+brew install nmap
+
+Verify installation:
+
+nmap --version
+🚀 Phase 1: Basic Host Discovery
+🔹 Ping Scan (Discover Live Hosts)
+nmap -sn 192.168.1.0/24
+
+-sn = No port scan
+
+Finds which devices are online
+
+Use this in your home lab network.
+
+🚪 Phase 2: Port Scanning
+🔹 Scan a Single Target
+nmap 192.168.1.10
+
+Default scans top 1000 ports.
+
+🔹 Scan Specific Ports
+nmap -p 22,80,443 192.168.1.10
+🔹 Scan All Ports
+nmap -p- 192.168.1.10
+🔬 Phase 3: Service & Version Detection
+nmap -sV 192.168.1.10
+
+-sV = Detect service versions
+
+Example output:
+
+OpenSSH 8.2
+
+Apache 2.4.41
+
+This helps identify vulnerable versions.
+
+🖥 Phase 4: OS Detection
+sudo nmap -O 192.168.1.10
+
+-O = Operating system detection
+
+Requires root/admin privileges
+
+🔥 Phase 5: Aggressive Scan (Common in Labs)
+sudo nmap -A 192.168.1.10
+
+Includes:
+
+OS detection
+
+Version detection
+
+Script scanning
+
+Traceroute
+
+⚠️ Use only in authorized lab environments.
+
+📜 Phase 6: Enumeration with NSE (Nmap Scripting Engine)
+
+Nmap includes powerful scripts for deeper enumeration.
+
+🔹 SMB Enumeration
+nmap --script smb-enum-shares -p 445 192.168.1.10
+🔹 FTP Anonymous Login Check
+nmap --script ftp-anon -p 21 192.168.1.10
+🔹 HTTP Enumeration
+nmap --script http-enum -p 80 192.168.1.10
+🔹 Vulnerability Scan
+nmap --script vuln 192.168.1.10
+🧪 Practice Targets (Safe for Labs)
+
+Use intentionally vulnerable systems like:
+
+Metasploitable 2
+
+OWASP Juice Shop
+
+DVWA (Damn Vulnerable Web App)
+
+Run them inside VirtualBox or VMware in an isolated network.
+
+📊 Sample Output Interpretation
+
+Example:
+
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.6
+80/tcp   open  http    Apache httpd 2.4.29
+445/tcp  open  smb     Samba 3.6.25
+
+What this tells you:
+
+SSH is running
+
+Web server present
+
+SMB likely exploitable (older Samba version)
+
+🛡 Defensive Perspective
+
+Learning Nmap helps defenders:
+
+Detect exposed services
+
+Identify misconfigurations
+
+Audit firewall rules
+
+Harden systems
+
+Blue teams often use Nmap for internal audits.
+
+📚 Learning Roadmap
+Beginner
+
+Host discovery
+
+Basic port scanning
+
+Service detection
+
+Intermediate
+
+NSE scripts
+
+OS detection
+
+Firewall evasion techniques
+
+Advanced
+
+Writing custom NSE scripts
+
+Stealth scans (-sS)
+
+Timing controls (-T0 to -T5)
+
+IDS/IPS detection evasion
+
+🎯 Portfolio Project Idea
+
+Document a lab exercise:
+
+Scan Metasploitable
+
+Identify open services
+
+Run NSE scripts
+
+Document findings
+
+Suggest remediation steps
+
+Include:
+
+Screenshots
+
+Command outputs
+
+Network diagram
+
+Risk analysis
+
+⚠️ Legal & Ethical Reminder
+
+Only scan:
+
+Your own systems
+
+Lab environments
+
+Systems you have explicit permission to test
+
+Unauthorized scanning can be illegal.
+
+🚀 Skills You’ll Gain
+
+Network reconnaissance
+
+Port scanning techniques
+
+Service enumeration
+
+Vulnerability discovery basics
+
+Understanding attack surfaces
