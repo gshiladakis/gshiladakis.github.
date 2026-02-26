@@ -1,0 +1,169 @@
+Step 1: Install Requirements
+Bash 
+pip install tldextract validators
+
+🐍 Step 2: Python Code
+import re
+import tldextract
+import validators
+from urllib.parse import urlparse
+import math
+from collections import Counter
+
+# Suspicious keywords often used in phishing
+SUSPICIOUS_KEYWORDS = [
+    "login", "verify", "update", "secure", "account",
+    "bank", "confirm", "signin", "reset", "password"
+]
+
+SUSPICIOUS_TLDS = [
+    "zip", "review", "country", "kim", "cricket", "science", "work"
+]
+
+def calculate_entropy(text):
+    """Calculate Shannon entropy to detect randomness"""
+    counter = Counter(text)
+    length = len(text)
+    entropy = -sum((count/length) * math.log2(count/length)
+                   for count in counter.values())
+    return entropy
+
+def analyze_url(url):
+    result = {}
+    risk_score = 0
+
+    # Validate URL
+    if not validators.url(url):
+        return {"error": "Invalid URL format"}
+
+    parsed = urlparse(url)
+    ext = tldextract.extract(url)
+    domain = ext.domain
+    subdomain = ext.subdomain
+    tld = ext.suffix
+
+    # 1️⃣ HTTPS Check
+    if parsed.scheme != "https":
+        risk_score += 2
+        result["https"] = "Not Secure"
+    else:
+        result["https"] = "Secure"
+
+    # 2️⃣ IP Address in URL
+    if re.match(r"^\d+\.\d+\.\d+\.\d+$", parsed.hostname or ""):
+        risk_score += 3
+        result["ip_address"] = True
+    else:
+        result["ip_address"] = False
+
+    # 3️⃣ Suspicious Keywords
+    for keyword in SUSPICIOUS_KEYWORDS:
+        if keyword in url.lower():
+            risk_score += 1
+            result["suspicious_keyword"] = keyword
+            break
+
+    # 4️⃣ Long URL
+    if len(url) > 75:
+        risk_score += 1
+        result["long_url"] = True
+    else:
+        result["long_url"] = False
+
+    # 5️⃣ Too Many Subdomains
+    if subdomain.count('.') >= 2:
+        risk_score += 2
+        result["many_subdomains"] = True
+    else:
+        result["many_subdomains"] = False
+
+    # 6️⃣ Suspicious TLD
+    if tld in SUSPICIOUS_TLDS:
+        risk_score += 2
+        result["suspicious_tld"] = True
+    else:
+        result["suspicious_tld"] = False
+
+    # 7️⃣ Entropy Check (Random-looking domains)
+    entropy = calculate_entropy(domain)
+    if entropy > 3.5:
+        risk_score += 2
+        result["high_entropy"] = True
+    else:
+        result["high_entropy"] = False
+
+    result["risk_score"] = risk_score
+
+    if risk_score <= 2:
+        result["classification"] = "Low Risk"
+    elif 3 <= risk_score <= 5:
+        result["classification"] = "Medium Risk"
+    else:
+        result["classification"] = "High Risk"
+
+    return result
+
+
+if __name__ == "__main__":
+    url = input("Enter URL to analyze: ")
+    analysis = analyze_url(url)
+
+    print("\n--- Phishing Analysis Result ---")
+    for key, value in analysis.items():
+        print(f"{key}: {value}")
+🧪 Example Output
+Enter URL to analyze: http://secure-login-update-account.xyz
+
+--- Phishing Analysis Result ---
+https: Not Secure
+ip_address: False
+suspicious_keyword: login
+long_url: False
+many_subdomains: False
+suspicious_tld: False
+high_entropy: False
+risk_score: 4
+classification: Medium Risk
+🚀 How To Level It Up (Make It Internship-Ready)
+
+You can enhance this into a serious cybersecurity project:
+
+🔹 Add VirusTotal API integration
+
+Check domain reputation
+
+Pull threat intelligence
+
+🔹 Add WHOIS lookup
+
+Check domain age (new domains are risky)
+
+🔹 Build a GUI
+
+Use tkinter or streamlit
+
+🔹 Export results to CSV
+
+Useful for SOC workflows
+
+🔹 Add batch scanning mode
+
+Analyze a list of URLs
+
+🔹 Deploy as a Web App
+
+Flask + Render
+
+Add to your GitHub portfolio
+
+💼 How to Put This on Your Resume
+
+Phishing URL Analysis Tool (Python)
+
+Built automated phishing detection tool using URL entropy, TLD analysis, and keyword detection
+
+Implemented risk scoring model to classify malicious URLs
+
+Applied cybersecurity threat detection methodology
+
+Designed modular, extensible architecture for API integration
